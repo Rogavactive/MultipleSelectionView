@@ -1,4 +1,4 @@
-package ge.rogavactive.multipleselectionview
+package ge.rogavactive.multipleselectionviewapp
 
 import org.junit.Test
 

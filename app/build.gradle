@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'ge.rogavactive.multipleselectionview'
+    namespace 'ge.rogavactive.multipleselectionviewapp'
     compileSdk 33
 
     defaultConfig {
-        applicationId "ge.rogavactive.multipleselectionview"
+        applicationId "ge.rogavactive.multipleselectionviewapp"
         minSdk 21
         targetSdk 33
         versionCode 1

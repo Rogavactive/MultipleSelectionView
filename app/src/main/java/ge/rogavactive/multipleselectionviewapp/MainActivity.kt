@@ -1,9 +1,8 @@
-package ge.rogavactive.multipleselectionview
+package ge.rogavactive.multipleselectionviewapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import ge.rogavactive.multipleselectionview.databinding.ActivityMainBinding
+import ge.rogavactive.multipleselectionviewapp.databinding.ActivityMainBinding
 
 internal class MainActivity : AppCompatActivity() {
 
