@@ -66,7 +66,7 @@ class MultipleSelectionView<I> @JvmOverloads constructor(
     /**
      * Modify default adapter and retrieve it.
      */
-    fun createAdapterWithItems(
+    fun populateAdapterWithItems(
         items: List<I>,
         selectedItems: List<I> = listOf(),
         itemTransformFun: ((I) -> String) = { it.toString() }

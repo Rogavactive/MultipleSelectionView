@@ -49,6 +49,10 @@
             android:layout_height="wrap_content"
             android:hint="Select options"
             android:padding="10dp"
+            app:msv_modal_text_size="14sp"
+            app:msv_modal_background="@color/white"
+            app:msv_modal_text_color="@color/black"
+            app:msv_modal_tick_color="@color/teal_700"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
     </androidx.cardview.widget.CardView>

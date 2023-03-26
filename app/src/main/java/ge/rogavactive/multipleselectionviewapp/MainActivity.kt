@@ -13,7 +13,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val adapter = binding.defaultMultipleSelectionView.createAdapterWithItems(
+        val adapter = binding.defaultMultipleSelectionView.populateAdapterWithItems(
             items = mutableList
         )
         binding.addBtn.setOnClickListener {
