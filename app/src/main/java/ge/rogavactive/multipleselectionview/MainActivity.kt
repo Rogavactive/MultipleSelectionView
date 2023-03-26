@@ -10,7 +10,6 @@ internal class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val mutableList = mutableListOf<String>()
 
-    // TODO: Optimize imports
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
