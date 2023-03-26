@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultipleSelectionView" >
+        <attr name="msv_modal_background" format="reference|color"/>
+        <attr name="msv_modal_text_color" format="color"/>
+        <attr name="msv_modal_tick_color" format="color"/>
+        <attr name="msv_modal_text_size" format="dimension"/>
+    </declare-styleable>
+</resources>
