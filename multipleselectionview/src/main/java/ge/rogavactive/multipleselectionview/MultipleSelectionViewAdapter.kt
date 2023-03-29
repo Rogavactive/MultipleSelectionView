@@ -25,6 +25,16 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
     }
 
     /**
+     * Get all items currently in dropdown.
+     */
+    fun getItems(): List<I> = mItems
+
+    /**
+     * Get dropdown selected items list.
+     */
+    fun getSelectedItems(): List<I> = mSelectedItems.toList()
+
+    /**
      * Instantiate a custom view for selected viewType
      */
     abstract fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultipleSelectionListPopupViewHolder<I>
