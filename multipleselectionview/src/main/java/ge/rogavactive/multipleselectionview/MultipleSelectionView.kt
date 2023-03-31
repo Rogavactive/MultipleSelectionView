@@ -61,6 +61,9 @@ class MultipleSelectionView<I> @JvmOverloads constructor(
 
             mAdapter = defaultAdapter
         }
+        setOnClickListener {
+            mModal.show()
+        }
     }
 
     /**
@@ -83,28 +86,6 @@ class MultipleSelectionView<I> @JvmOverloads constructor(
      */
     fun setAdapter(newAdapter: MultipleSelectionViewAdapter<I>) {
         mAdapter = newAdapter
-    }
-
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action == MotionEvent.ACTION_DOWN) {
-            listener?.onClick(this)
-            mModal.show()
-        }
-        return super.dispatchTouchEvent(event)
-    }
-
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_DOWN &&
-            (event.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || event.keyCode == KeyEvent.KEYCODE_ENTER)
-        ) {
-            listener?.onClick(this)
-            mModal.show()
-        }
-        return super.dispatchKeyEvent(event)
-    }
-
-    override fun setOnClickListener(listener: OnClickListener?) {
-        this.listener = listener
     }
 
 }
