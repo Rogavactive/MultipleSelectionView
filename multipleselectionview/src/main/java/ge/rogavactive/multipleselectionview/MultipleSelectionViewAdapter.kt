@@ -1,5 +1,6 @@
 package ge.rogavactive.multipleselectionview
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -67,10 +68,8 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
     override fun getItemId(position: Int): Long = 0
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        if (mViews.contains(position)) {
-            val v = mViews[position]!!
-            updateViewWithRelevantState(v, position)
-            return v.itemView
+        if (convertView != null) {
+            return convertView
         }
         val v = onCreateViewHolder(parent, getItemViewType(position))
         updateViewWithRelevantState(v, position)
