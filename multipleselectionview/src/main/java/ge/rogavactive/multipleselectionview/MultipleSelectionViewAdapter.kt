@@ -1,16 +1,13 @@
 package ge.rogavactive.multipleselectionview
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import ge.rogavactive.multipleselectionview.popup.MultipleSelectionListPopupViewHolder
 
 abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
 
     private var mItems: List<I> = emptyList()
-    private val mSelectedItems: MutableList<I> = mutableListOf()
-    private val mViews: HashMap<Int, MultipleSelectionListPopupViewHolder<I>> = HashMap()
+    private val mSelectedItems: MutableSet<I> = mutableSetOf()
 
     private var onChangeListener: MultipleSelection.OnSelectionChanged<I>? = null
     private var onFinishedListener: MultipleSelection.OnSelectionFinished<I>? = null
@@ -20,7 +17,6 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
         mItems = items
         mSelectedItems.clear()
         mSelectedItems.addAll(selectedItems)
-        mViews.clear()
         onShouldUpdateText?.invoke()
         notifyDataSetChanged()
     }
@@ -38,13 +34,18 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
     /**
      * Instantiate a custom view for selected viewType
      */
-    abstract fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultipleSelectionListPopupViewHolder<I>
+    abstract fun onCreateView(parent: ViewGroup): View
+
+    /**
+     * Called each time a view should be updated.
+     */
+    abstract fun onViewUpdate(item: View, data: I, selected: Boolean)
 
     /**
      * Function responsible to generate a string for Main TextView when items are selected.
      */
-    open fun onFormatSelected(selected: List<I>): String
-            = selected.joinToString()
+    open fun onFormatSelected(selected: Set<I>): String
+            = selected.sortedBy { it.toString() }.joinToString()
 
     /**
      * Detect value changes in selection process
@@ -68,16 +69,21 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
     override fun getItemId(position: Int): Long = 0
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        if (convertView != null) {
-            return convertView
+        if (convertView == null) {
+            val v = onCreateView(parent)
+            onViewUpdate(v, mItems[position], mItems[position] in mSelectedItems)
+            v.setOnClickListener {
+                val item = processItemClick(position)
+                onViewUpdate(it, item, item in mSelectedItems)
+            }
+            return v
         }
-        val v = onCreateViewHolder(parent, getItemViewType(position))
-        updateViewWithRelevantState(v, position)
-        mViews[position] = v
-        v.itemView.setOnClickListener {
-            processItemClick(v, position)
+        onViewUpdate(convertView, mItems[position], mItems[position] in mSelectedItems)
+        convertView.setOnClickListener {
+            val item = processItemClick(position)
+            onViewUpdate(it, item, item in mSelectedItems)
         }
-        return v.itemView
+        return convertView
     }
 
     internal fun modalDismiss() {
@@ -86,7 +92,7 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
 
     internal fun getFormattedSelectedText(): String = onFormatSelected(mSelectedItems)
 
-    private fun processItemClick(vh: MultipleSelectionListPopupViewHolder<I>, position: Int) {
+    private fun processItemClick(position: Int): I {
         val itemData = mItems[position]
         if (mSelectedItems.contains(itemData)) {
             mSelectedItems.remove(itemData)
@@ -94,12 +100,8 @@ abstract class MultipleSelectionViewAdapter<I> : BaseAdapter() {
             mSelectedItems.add(itemData)
         }
         val isSelected = itemData in mSelectedItems
-        vh.onStateChange(itemData, isSelected)
         onChangeListener?.onChange(itemData, isSelected)
-    }
-
-    private fun updateViewWithRelevantState(vh: MultipleSelectionListPopupViewHolder<I>, position: Int) {
-        vh.onStateChange(mItems[position], mItems[position] in mSelectedItems)
+        return itemData
     }
 
 }
